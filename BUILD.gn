@@ -1,17 +1,15 @@
-/*
- * Copyright (c) 2022 Huawei Device Co., Ltd.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+# Copyright (c) 2022 Huawei Device Co., Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 if (defined(ohos_lite)) {
   import("//build/lite/config/component/lite_component.gni")
@@ -70,8 +68,6 @@ jpeg_sources = [
   "jutils.c",
 ]
 
-define_config = []
-
 if (current_cpu == "arm" && !is_win) {
   jpeg_sources += [
     "simd/arm/jsimd.c",
@@ -86,21 +82,34 @@ if (current_cpu == "arm" && !is_win) {
   jpeg_sources += [ "jsimd_none.c" ]
 }
 
+define_config = []
 if (!defined(ohos_lite)) {
-  # enable arith codec
   jpeg_sources += [
+    # enable arith codec
     "jaricom.c",
     "jcarith.c",
     "jdarith.c",
+    "jdatadst-tj.c",
+    "jdatasrc-tj.c",
+    "rdbmp.c",
+    "rdppm.c",
+    "transupp.c",
+
+    # enable turbo
+    "turbojpeg.c",
+    "wrbmp.c",
+    "wrppm.c",
   ]
   define_config += [
     "C_ARITH_CODING_SUPPORTED=1",  #Support arithmetic encoding
     "D_ARITH_CODING_SUPPORTED=1",  #Support arithmetic decoding
+    "BMP_SUPPORTED=1",  #Support arithmetic decoding
+    "PPM_SUPPORTED=1",  #Support arithmetic decoding
   ]
 }
 
-config("libjpeg_turbo_config") {
-  include_dirs = [ "//third_party/libjpeg" ]
+config("turbojpeg_config") {
+  include_dirs = [ "//third_party/libjpeg-turbo" ]
   defines = define_config
 }
 
@@ -112,11 +121,15 @@ if (defined(ohos_lite)) {
       target_type = "shared_library"
     }
     sources = jpeg_sources
-    public_configs = [ ":libjpeg_turbo_config" ]
+    public_configs = [ ":turbojpeg_config" ]
   }
 } else {
-  ohos_static_library("libjpeg_static") {
+  ohos_static_library("turbojpeg_static") {
     sources = jpeg_sources
-    public_configs = [ ":libjpeg_turbo_config" ]
+    public_configs = [ ":turbojpeg_config" ]
+  }
+  ohos_shared_library("turbojpeg") {
+    sources = jpeg_sources
+    public_configs = [ ":turbojpeg_config" ]
   }
 }
