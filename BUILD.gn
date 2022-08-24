@@ -68,12 +68,14 @@ jpeg_sources = [
   "jutils.c",
 ]
 
-if (current_cpu == "arm" && !is_win) {
+if (is_win || use_mac) {
+  jpeg_sources += [ "jsimd_none.c" ]
+} else if (current_cpu == "arm") {
   jpeg_sources += [
     "simd/arm/jsimd.c",
     "simd/arm/jsimd_neon.S",
   ]
-} else if (current_cpu == "arm64" && !is_win) {
+} else if (current_cpu == "arm64") {
   jpeg_sources += [
     "simd/arm64/jsimd.c",
     "simd/arm64/jsimd_neon.S",
