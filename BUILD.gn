@@ -68,7 +68,8 @@ jpeg_sources = [
   "jutils.c",
 ]
 
-if (ohos_kernel_type == "liteos_m" || is_win) {
+mkernel = defined(ohos_kernel_type) && ohos_kernel_type == "liteos_m"
+if (mkernel || is_win) {
   jpeg_sources += [ "jsimd_none.c" ]
 } else if (current_cpu == "arm") {
   jpeg_sources += [
