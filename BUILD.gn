@@ -125,7 +125,7 @@ if (defined(ohos_lite)) {
     }
     sources = jpeg_sources
     public_configs = [ ":turbojpeg_config" ]
-    if (board_toolchain_type == "iccarm") {
+    if (defined(board_toolchain_type) && board_toolchain_type == "iccarm") {
       cflags = [
         "--diag_suppress",
         "Pa181,Pe301,Pe546",
