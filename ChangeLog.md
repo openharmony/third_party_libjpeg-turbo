@@ -1,3 +1,14 @@
+2.0.6
+=====
+### Significant changes relative to 2.0.5:
+
+2. Fixed segfaults or "Corrupt JPEG data: premature end of data segment" errors
+in `jpeg_skip_scanlines()` that occurred when decompressing 4:2:2 or 4:2:0 JPEG
+images using the merged (non-fancy) upsampling algorithms (that is, when
+setting `cinfo.do_fancy_upsampling` to `FALSE`.)  2.0.0[6] was a similar fix,
+but it did not cover all cases.
+
+
 2.0.5
 =====
 
@@ -26,6 +37,16 @@ than 255.
 such as `tjBufSize()` and `tjLoadImage()` that do not require a TurboJPEG
 instance handle, is now thread-safe on platforms that support thread-local
 storage.
+
+7. The PPM reader now throws an error, rather than segfaulting (due to a buffer
+overrun) or generating incorrect pixels, if an application attempts to use the
+`tjLoadImage()` function to load a 16-bit binary PPM file (a binary PPM file
+with a maximum value greater than 255) into a grayscale image buffer or to load
+a 16-bit binary PGM file into an RGB image buffer.
+ 
+8. Fixed an issue in the PPM reader that caused incorrect pixels to be
+generated when using the `tjLoadImage()` function to load a 16-bit binary PPM
+file into an extended RGB image buffer.
 
 
 2.0.4
