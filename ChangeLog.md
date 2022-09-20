@@ -38,6 +38,16 @@ such as `tjBufSize()` and `tjLoadImage()` that do not require a TurboJPEG
 instance handle, is now thread-safe on platforms that support thread-local
 storage.
 
+7. The PPM reader now throws an error, rather than segfaulting (due to a buffer
+overrun) or generating incorrect pixels, if an application attempts to use the
+`tjLoadImage()` function to load a 16-bit binary PPM file (a binary PPM file
+with a maximum value greater than 255) into a grayscale image buffer or to load
+a 16-bit binary PGM file into an RGB image buffer.
+ 
+8. Fixed an issue in the PPM reader that caused incorrect pixels to be
+generated when using the `tjLoadImage()` function to load a 16-bit binary PPM
+file into an extended RGB image buffer.
+
 
 2.0.4
 =====
