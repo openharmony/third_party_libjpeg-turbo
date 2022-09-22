@@ -23,7 +23,11 @@
 #undef inline
 
 /* How to obtain function inlining. */
+#ifdef _MSC_VER
+#define INLINE __forceinline
+#else
 #define INLINE  __inline__ __attribute__((always_inline))
+#endif
 
 /* How to obtain thread-local storage */
 #define THREAD_LOCAL
