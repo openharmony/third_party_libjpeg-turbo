@@ -5,7 +5,7 @@
  * Copyright (C) 1994-1996, Thomas G. Lane.
  * libjpeg-turbo Modifications:
  * Copyright (C) 2013, Linaro Limited.
- * Copyright (C) 2014-2015, 2017, 2019, 2022, D. R. Commander.
+ * Copyright (C) 2014-2015, 2017, 2019, D. R. Commander.
  * For conditions of distribution and use, see the accompanying README.ijg
  * file.
  *
@@ -121,7 +121,7 @@ put_pixel_rows(j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
   inptr = dest->pub.buffer[0];
 
   if (cinfo->out_color_space == JCS_EXT_BGR) {
-    memcpy(outptr, inptr, dest->row_width);
+    MEMCOPY(outptr, inptr, dest->row_width);
     outptr += cinfo->output_width * 3;
   } else if (cinfo->out_color_space == JCS_RGB565) {
     boolean big_endian = is_big_endian();
@@ -141,6 +141,7 @@ put_pixel_rows(j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
     }
   } else if (cinfo->out_color_space == JCS_CMYK) {
     for (col = cinfo->output_width; col > 0; col--) {
+      /* can omit GETJSAMPLE() safely */
       JSAMPLE c = *inptr++, m = *inptr++, y = *inptr++, k = *inptr++;
       cmyk_to_rgb(c, m, y, k, outptr + 2, outptr + 1, outptr);
       outptr += 3;
@@ -152,6 +153,7 @@ put_pixel_rows(j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
     register int ps = rgb_pixelsize[cinfo->out_color_space];
 
     for (col = cinfo->output_width; col > 0; col--) {
+      /* can omit GETJSAMPLE() safely */
       outptr[0] = inptr[bindex];
       outptr[1] = inptr[gindex];
       outptr[2] = inptr[rindex];
@@ -165,7 +167,7 @@ put_pixel_rows(j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
     *outptr++ = 0;
 
   if (!dest->use_inversion_array)
-    fwrite(dest->iobuffer, 1, dest->row_width, dest->pub.output_file);
+    (void)JFWRITE(dest->pub.output_file, dest->iobuffer, dest->row_width);
 }
 
 METHODDEF(void)
@@ -191,7 +193,7 @@ put_gray_rows(j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
 
   /* Transfer data. */
   inptr = dest->pub.buffer[0];
-  memcpy(outptr, inptr, cinfo->output_width);
+  MEMCOPY(outptr, inptr, cinfo->output_width);
   outptr += cinfo->output_width;
 
   /* Zero out the pad bytes. */
@@ -200,7 +202,7 @@ put_gray_rows(j_decompress_ptr cinfo, djpeg_dest_ptr dinfo,
     *outptr++ = 0;
 
   if (!dest->use_inversion_array)
-    fwrite(dest->iobuffer, 1, dest->row_width, dest->pub.output_file);
+    (void)JFWRITE(dest->pub.output_file, dest->iobuffer, dest->row_width);
 }
 
 
@@ -256,8 +258,8 @@ write_bmp_header(j_decompress_ptr cinfo, bmp_dest_ptr dest)
   bfSize = headersize + (long)dest->row_width * (long)cinfo->output_height;
 
   /* Set unused fields of header to 0 */
-  memset(bmpfileheader, 0, sizeof(bmpfileheader));
-  memset(bmpinfoheader, 0, sizeof(bmpinfoheader));
+  MEMZERO(bmpfileheader, sizeof(bmpfileheader));
+  MEMZERO(bmpinfoheader, sizeof(bmpinfoheader));
 
   /* Fill the file header */
   bmpfileheader[0] = 0x42;      /* first 2 bytes are ASCII 'B', 'M' */
@@ -281,9 +283,9 @@ write_bmp_header(j_decompress_ptr cinfo, bmp_dest_ptr dest)
   PUT_2B(bmpinfoheader, 32, cmap_entries); /* biClrUsed */
   /* we leave biClrImportant = 0 */
 
-  if (fwrite(bmpfileheader, 1, 14, dest->pub.output_file) != (size_t)14)
+  if (JFWRITE(dest->pub.output_file, bmpfileheader, 14) != (size_t)14)
     ERREXIT(cinfo, JERR_FILE_WRITE);
-  if (fwrite(bmpinfoheader, 1, 40, dest->pub.output_file) != (size_t)40)
+  if (JFWRITE(dest->pub.output_file, bmpinfoheader, 40) != (size_t)40)
     ERREXIT(cinfo, JERR_FILE_WRITE);
 
   if (cmap_entries > 0)
@@ -325,8 +327,8 @@ write_os2_header(j_decompress_ptr cinfo, bmp_dest_ptr dest)
   bfSize = headersize + (long)dest->row_width * (long)cinfo->output_height;
 
   /* Set unused fields of header to 0 */
-  memset(bmpfileheader, 0, sizeof(bmpfileheader));
-  memset(bmpcoreheader, 0, sizeof(bmpcoreheader));
+  MEMZERO(bmpfileheader, sizeof(bmpfileheader));
+  MEMZERO(bmpcoreheader, sizeof(bmpcoreheader));
 
   /* Fill the file header */
   bmpfileheader[0] = 0x42;      /* first 2 bytes are ASCII 'B', 'M' */
@@ -342,9 +344,9 @@ write_os2_header(j_decompress_ptr cinfo, bmp_dest_ptr dest)
   PUT_2B(bmpcoreheader, 8, 1);  /* bcPlanes - must be 1 */
   PUT_2B(bmpcoreheader, 10, bits_per_pixel); /* bcBitCount */
 
-  if (fwrite(bmpfileheader, 1, 14, dest->pub.output_file) != (size_t)14)
+  if (JFWRITE(dest->pub.output_file, bmpfileheader, 14) != (size_t)14)
     ERREXIT(cinfo, JERR_FILE_WRITE);
-  if (fwrite(bmpcoreheader, 1, 12, dest->pub.output_file) != (size_t)12)
+  if (JFWRITE(dest->pub.output_file, bmpcoreheader, 12) != (size_t)12)
     ERREXIT(cinfo, JERR_FILE_WRITE);
 
   if (cmap_entries > 0)
@@ -370,18 +372,18 @@ write_colormap(j_decompress_ptr cinfo, bmp_dest_ptr dest, int map_colors,
     if (cinfo->out_color_components == 3) {
       /* Normal case with RGB colormap */
       for (i = 0; i < num_colors; i++) {
-        putc(colormap[2][i], outfile);
-        putc(colormap[1][i], outfile);
-        putc(colormap[0][i], outfile);
+        putc(GETJSAMPLE(colormap[2][i]), outfile);
+        putc(GETJSAMPLE(colormap[1][i]), outfile);
+        putc(GETJSAMPLE(colormap[0][i]), outfile);
         if (map_entry_size == 4)
           putc(0, outfile);
       }
     } else {
       /* Grayscale colormap (only happens with grayscale quantization) */
       for (i = 0; i < num_colors; i++) {
-        putc(colormap[0][i], outfile);
-        putc(colormap[0][i], outfile);
-        putc(colormap[0][i], outfile);
+        putc(GETJSAMPLE(colormap[0][i]), outfile);
+        putc(GETJSAMPLE(colormap[0][i]), outfile);
+        putc(GETJSAMPLE(colormap[0][i]), outfile);
         if (map_entry_size == 4)
           putc(0, outfile);
       }
@@ -436,6 +438,7 @@ finish_output_bmp(j_decompress_ptr cinfo, djpeg_dest_ptr dinfo)
   JSAMPARRAY image_ptr;
   register JSAMPROW data_ptr;
   JDIMENSION row;
+  register JDIMENSION col;
   cd_progress_ptr progress = (cd_progress_ptr)cinfo->progress;
 
   if (dest->use_inversion_array) {
@@ -456,7 +459,10 @@ finish_output_bmp(j_decompress_ptr cinfo, djpeg_dest_ptr dinfo)
         ((j_common_ptr)cinfo, dest->whole_image, row - 1, (JDIMENSION)1,
          FALSE);
       data_ptr = image_ptr[0];
-      fwrite(data_ptr, 1, dest->row_width, outfile);
+      for (col = dest->row_width; col > 0; col--) {
+        putc(GETJSAMPLE(*data_ptr), outfile);
+        data_ptr++;
+      }
     }
     if (progress != NULL)
       progress->completed_extra_passes++;

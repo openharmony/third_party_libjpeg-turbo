@@ -54,11 +54,7 @@ makedeb()
 
 	if [ $SUPPLEMENT = 1 ]; then
 		PKGNAME=$PKGNAME\32
-		if [ "$DEBARCH" = "i386" ]; then
-			DEBARCH=amd64
-		else
-			DEBARCH=arm64
-		fi
+		DEBARCH=amd64
 	fi
 
 	umask 022
@@ -67,7 +63,7 @@ makedeb()
 	mkdir $TMPDIR/DEBIAN
 
 	if [ $SUPPLEMENT = 1 ]; then
-		DESTDIR=$TMPDIR @CMAKE_MAKE_PROGRAM@ install
+		make install DESTDIR=$TMPDIR
 		rm -rf $TMPDIR$BINDIR
 		if [ "$DATAROOTDIR" != "$PREFIX" ]; then
 			rm -rf $TMPDIR$DATAROOTDIR
@@ -79,7 +75,7 @@ makedeb()
 		rm -rf $TMPDIR$INCLUDEDIR
 		rm -rf $TMPDIR$MANDIR
 	else
-		DESTDIR=$TMPDIR @CMAKE_MAKE_PROGRAM@ install
+		make install DESTDIR=$TMPDIR
 		if [ "$PREFIX" = "@CMAKE_INSTALL_DEFAULT_PREFIX@" -a "$DOCDIR" = "@CMAKE_INSTALL_DEFAULT_PREFIX@/doc" ]; then
 			safedirmove $TMPDIR/$DOCDIR $TMPDIR/usr/share/doc/$PKGNAME-$VERSION $TMPDIR/__tmpdoc
 			ln -fs /usr/share/doc/$DIRNAME-$VERSION $TMPDIR$DOCDIR
@@ -114,8 +110,6 @@ if [ ! `uid` -eq 0 ]; then
 fi
 
 makedeb 0
-if [ "$DEBARCH" = "i386" -o "$DEBARCH" = "armel" -o "$DEBARCH" = "armhf" ]; then
-	makedeb 1
-fi
+if [ "$DEBARCH" = "i386" ]; then makedeb 1; fi
 
 exit
