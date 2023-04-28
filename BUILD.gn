@@ -75,6 +75,10 @@ cflags = []
 mkernel = defined(ohos_kernel_type) && ohos_kernel_type == "liteos_m"
 if (mkernel || is_win) {
   jpeg_sources += [ "jsimd_none.c" ]
+  define_config += [
+    "NO_PUTENV",
+    "NO_GETENV",
+  ]
 } else if (current_cpu == "arm" || current_cpu == "arm64") {
   jpeg_sources += [
     "simd/arm/jcgray-neon.c",
@@ -93,6 +97,8 @@ if (mkernel || is_win) {
     "simd/arm/jidctfst-neon.c",
     "simd/arm/jidctint-neon.c",
   ]
+  define_config += [ "NEON_INTRINSICS" ]
+  cflags += [ "-DNEON_INTRINSICS" ]
   include_dirs += [ "//third_party/libjpeg-turbo/simd/arm" ]
   if (current_cpu == "arm") {
     jpeg_sources += [
