@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Huawei Device Co., Ltd.
+ * Copyright (c) 2023 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,8 +16,9 @@
 #ifndef THIRD_PARTY_LIBJPEG_TURBO_JCONFIGINT_H
 #define THIRD_PARTY_LIBJPEG_TURBO_JCONFIGINT_H
 
+
 /* libjpeg-turbo build number */
-#define BUILD  "20220811"
+#define BUILD  "20230329"
 
 /* Compiler's inline keyword */
 #undef inline
@@ -30,13 +31,13 @@
 #endif
 
 /* How to obtain thread-local storage */
-#define THREAD_LOCAL
+#define THREAD_LOCAL  
 
 /* Define to the full name of this package. */
 #define PACKAGE_NAME  "libjpeg-turbo"
 
 /* Version number of package */
-#define VERSION  "2.0.5"
+#define VERSION  "2.1.4"
 
 /* The size of `size_t', as computed by sizeof. */
 #ifdef __SIZEOF_SIZE_T__
@@ -59,6 +60,16 @@
 #elif (SIZEOF_SIZE_T == 4)
 #define HAVE_BITSCANFORWARD
 #endif
+#endif
+
+#if defined(__has_attribute)
+#if __has_attribute(fallthrough)
+#define FALLTHROUGH  __attribute__((fallthrough));
+#else
+#define FALLTHROUGH
+#endif
+#else
+#define FALLTHROUGH
 #endif
 
 #endif
