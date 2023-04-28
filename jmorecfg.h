@@ -133,7 +133,7 @@ typedef short INT16;
  * same regardless of any external headers that may be included.
  */
 
-#ifndef _LOS_COMPILER_H   
+#ifndef __LITEOS_M__
 #ifndef XMD_H                   /* X11/xmd.h correctly defines INT32 */
 #ifndef _BASETSD_H_             /* Microsoft defines it in basetsd.h */
 #ifndef _BASETSD_H              /* MinGW is slightly different */
