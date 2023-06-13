@@ -178,5 +178,7 @@ if (defined(ohos_lite)) {
   ohos_shared_library("turbojpeg") {
     sources = jpeg_sources
     public_configs = [ ":turbojpeg_config" ]
+    part_name = "libjpeg-turbo"
+    subsystem_name = "thirdparty"
   }
 }
