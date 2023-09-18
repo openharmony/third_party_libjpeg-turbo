@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <limits.h>
 #include <jinclude.h>
 #define JPEG_INTERNALS
 #include <jpeglib.h>
@@ -569,7 +570,8 @@ DLLEXPORT unsigned long TJBUFSIZEYUV(int width, int height, int subsamp)
 
 DLLEXPORT int tjPlaneWidth(int componentID, int width, int subsamp)
 {
-  int pw, nc, retval = 0;
+  unsigned long long pw, retval = 0;
+  int nc;
 
   if (width < 1 || subsamp < 0 || subsamp >= TJ_NUMSAMP)
     THROWG("tjPlaneWidth(): Invalid argument");
@@ -583,14 +585,18 @@ DLLEXPORT int tjPlaneWidth(int componentID, int width, int subsamp)
   else
     retval = pw * 8 / tjMCUWidth[subsamp];
 
+  if (retval > (unsigned long long)INT_MAX)
+    THROWG("tjPlaneWidth(): Width is too large");
+
 bailout:
-  return retval;
+  return (int)retval;
 }
 
 
 DLLEXPORT int tjPlaneHeight(int componentID, int height, int subsamp)
 {
-  int ph, nc, retval = 0;
+  unsigned long long ph, retval = 0;
+  int nc;
 
   if (height < 1 || subsamp < 0 || subsamp >= TJ_NUMSAMP)
     THROWG("tjPlaneHeight(): Invalid argument");
@@ -604,8 +610,11 @@ DLLEXPORT int tjPlaneHeight(int componentID, int height, int subsamp)
   else
     retval = ph * 8 / tjMCUHeight[subsamp];
 
+  if (retval > (unsigned long long)INT_MAX)
+    THROWG("tjPlaneHeight(): Height is too large");
+
 bailout:
-  return retval;
+  return (int)retval;
 }
 
 
@@ -1924,6 +1933,10 @@ DLLEXPORT int tjTransform(tjhandle handle, const unsigned char *jpegBuf,
 
     if (!xinfo[i].crop) {
       w = dinfo->image_width;  h = dinfo->image_height;
+      if (t[i].op == TJXOP_TRANSPOSE || t[i].op == TJXOP_TRANSVERSE ||
+          t[i].op == TJXOP_ROT90 || t[i].op == TJXOP_ROT270) {
+        w = dinfo->image_height;  h = dinfo->image_width;
+      }
     } else {
       w = xinfo[i].crop_width;  h = xinfo[i].crop_height;
     }
