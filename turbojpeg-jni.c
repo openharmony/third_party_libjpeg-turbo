@@ -26,6 +26,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <limits.h>
 #include <stdlib.h>
 #include <string.h>
 #include "turbojpeg.h"
@@ -128,24 +129,28 @@ bailout:
 JNIEXPORT jint JNICALL Java_org_libjpegturbo_turbojpeg_TJ_bufSize
   (JNIEnv *env, jclass cls, jint width, jint height, jint jpegSubsamp)
 {
-  jint retval = (jint)tjBufSize(width, height, jpegSubsamp);
+  unsigned long retval = tjBufSize(width, height, jpegSubsamp);
 
-  if (retval == -1) THROW_ARG(tjGetErrorStr());
+  if (retval == (unsigned long)-1) THROW_ARG(tjGetErrorStr());
+  if (retval > (unsigned long)INT_MAX)
+    THROW_ARG("Image is too large");
 
 bailout:
-  return retval;
+  return (jint)retval;
 }
 
 /* TurboJPEG 1.4.x: TJ::bufSizeYUV() */
 JNIEXPORT jint JNICALL Java_org_libjpegturbo_turbojpeg_TJ_bufSizeYUV__IIII
   (JNIEnv *env, jclass cls, jint width, jint pad, jint height, jint subsamp)
 {
-  jint retval = (jint)tjBufSizeYUV2(width, pad, height, subsamp);
+  unsigned long retval = tjBufSizeYUV2(width, align, height, subsamp);
 
-  if (retval == -1) THROW_ARG(tjGetErrorStr());
+  if (retval == (unsigned long)-1) THROW_ARG(tjGetErrorStr());
+  if (retval > (unsigned long)INT_MAX)
+    THROW_ARG("Image is too large");
 
 bailout:
-  return retval;
+  return (jint)retval;
 }
 
 /* TurboJPEG 1.2.x: TJ::bufSizeYUV() */
@@ -162,13 +167,15 @@ JNIEXPORT jint JNICALL Java_org_libjpegturbo_turbojpeg_TJ_planeSizeYUV__IIIII
   (JNIEnv *env, jclass cls, jint componentID, jint width, jint stride,
    jint height, jint subsamp)
 {
-  jint retval = (jint)tjPlaneSizeYUV(componentID, width, stride, height,
-                                     subsamp);
+  unsigned long retval = tjPlaneSizeYUV(componentID, width, stride, height,
+                                        subsamp);
 
-  if (retval == -1) THROW_ARG(tjGetErrorStr());
+  if (retval == (unsigned long)-1) THROW_ARG(tjGetErrorStr());
+  if (retval > (unsigned long)INT_MAX)
+    THROW_ARG("Image is too large");
 
 bailout:
-  return retval;
+  return (jint)retval;
 }
 
 /* TurboJPEG 1.4.x: TJ::planeWidth() */
@@ -1194,6 +1201,10 @@ JNIEXPORT jintArray JNICALL Java_org_libjpegturbo_turbojpeg_TJTransformer_transf
   for (i = 0; i < n; i++) {
     int w = jpegWidth, h = jpegHeight;
 
+    if (t[i].op == TJXOP_TRANSPOSE || t[i].op == TJXOP_TRANSVERSE ||
+        t[i].op == TJXOP_ROT90 || t[i].op == TJXOP_ROT270) {
+      w = jpegHeight;  h = jpegWidth;
+    }
     if (t[i].r.w != 0) w = t[i].r.w;
     if (t[i].r.h != 0) h = t[i].r.h;
     BAILIF0(jdstBufs[i] = (*env)->GetObjectArrayElement(env, dstobjs, i));
