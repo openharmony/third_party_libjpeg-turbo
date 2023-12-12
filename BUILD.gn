@@ -153,13 +153,15 @@ if (mkernel || is_win) {
   ]
 } else if (current_cpu == "arm" || current_cpu == "arm64") {
   define_config += [ "NEON_INTRINSICS" ]
-  cflags += [ "-DNEON_INTRINSICS" ]
+  cflags += [
+    "-DNEON_INTRINSICS",
+    "-Wno-pointer-sign",
+  ]
   include_dirs += [ "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm" ]
   if (current_cpu == "arm") {
     cflags += [
       "-mfpu=neon",
       "-mfloat-abi=softfp",
-      "-Wno-pointer-sign",
     ]
   }
 }
