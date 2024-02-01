@@ -18,7 +18,7 @@
         "subsystem": "thirdparty",
         "syscap": [],
         "features": [],
-        "adapted_system_type": [ "mini" ],
+        "adapted_system_type": [ "standard","mini" ],
         "rom": "",
         "ram": "",
         "deps": {
@@ -26,8 +26,20 @@
             "third_party": []
         },
         "build": {
-            "sub_component": [],
-            "inner_kits": [],
+            "sub_component": [ "//third_party/libjpeg-turbo:turbojpeg" ],
+            "inner_kits": [
+                {
+                    "name": "//third_party/libjpeg-turbo:turbojpeg",
+                    "header": {
+                        "header_files": [
+                            "jpeglib.h",
+                            "jpegint.h",
+                            "turbojpeg.h"
+                        ],
+                        "header_base": "${root_gen_dir}/third_party/libjpeg-turbo/libjpeg-turbo-2.1.1/"
+                    }
+                }
+            ],
             "test": []
         }
     }
