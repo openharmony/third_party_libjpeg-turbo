@@ -211,6 +211,7 @@ if (defined(ohos_lite)) {
     sources = get_target_outputs(":libjpeg_action")
     public_configs = [ ":turbojpeg_config" ]
     deps = [ ":libjpeg_action" ]
+    innerapi_tags = [ "platformsdk" ]
     part_name = "libjpeg-turbo"
     subsystem_name = "thirdparty"
   }
