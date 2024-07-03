@@ -64,6 +64,7 @@ def do_patch(target_dir):
         "Add-loongarch64.patch",
         "libjpeg-turbo-2.1.x-bugfix.patch",
         "liteos_adapting.patch",
+        "libjpeg-turbo_optimize.patch"
     ]
 
     for patch in patch_file:
