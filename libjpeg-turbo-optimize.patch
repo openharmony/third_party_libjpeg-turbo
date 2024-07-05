@@ -1,7 +1,7 @@
-diff --git a/libjpeg-turbo/libjpeg-turbo-2.1.1/jdhuff.c b/libjpeg-turbo/libjpeg-turbo-2.1.1/jdhuff.c
-index 679d221..dbac8ca 100644
---- a/libjpeg-turbo/libjpeg-turbo-2.1.1/jdhuff.c
-+++ b/libjpeg-turbo/libjpeg-turbo-2.1.1/jdhuff.c
+diff --git a/jdhuff.c b/jdhuff.c
+index 679d221..b5a91eb 100644
+--- a/jdhuff.c
++++ b/jdhuff.c
 @@ -28,6 +28,7 @@
  #include "jpegcomp.h"
  #include "jstdhuff.c"
@@ -64,13 +64,12 @@ index 679d221..dbac8ca 100644
  
  /*
   * Initialize for a Huffman-compressed scan.
-@@ -127,6 +164,29 @@ start_pass_huff_decoder(j_decompress_ptr cinfo)
+@@ -127,6 +164,30 @@ start_pass_huff_decoder(j_decompress_ptr cinfo)
  
    /* Initialize restart counter */
    entropy->restarts_to_go = cinfo->restart_interval;
 +
 +  // only used when outer buffer size is very small
-+  entropy->buffer =  (*cinfo->mem->alloc_small) ((j_common_ptr)cinfo, JPOOL_IMAGE, INNER_BUF_SIZE);
 +  entropy->use_inner_buf = FALSE;
 +  // bytes left after header has been read
 +  struct jpeg_source_mgr *src  = cinfo->src;
@@ -82,19 +81,21 @@ index 679d221..dbac8ca 100644
 +  if (!(src->next_input_byte[src->bytes_in_buffer - 1] == JPEG_EOI
 +      && src->next_input_byte[src->bytes_in_buffer - 2] == 0xFF)) {
 +    if (src->bytes_in_buffer <= INNER_BUF_SIZE) {
++      entropy->use_inner_buf = TRUE;
++      entropy->buffer =  (*cinfo->mem->alloc_small) ((j_common_ptr)cinfo, JPOOL_IMAGE, INNER_BUF_SIZE);
++      
 +      memcpy(entropy->buffer, src->next_input_byte, src->bytes_in_buffer);
 +      entropy->bytes_in_buffer = src->bytes_in_buffer;
 +      entropy->next_input_byte = entropy->buffer;
 +
 +      (*src->fill_input_buffer)(cinfo); // there are unused data in out buffer
 +      entropy->out_buf_size = src->bytes_in_buffer;
-+      entropy->use_inner_buf = TRUE;
 +    }
 +  }
  }
  
  
-@@ -172,7 +232,7 @@ jpeg_make_d_derived_tbl(j_decompress_ptr cinfo, boolean isDC, int tblno,
+@@ -172,7 +233,7 @@ jpeg_make_d_derived_tbl(j_decompress_ptr cinfo, boolean isDC, int tblno,
    /* Figure C.1: make table of Huffman code length for each symbol */
  
    p = 0;
@@ -103,7 +104,7 @@ index 679d221..dbac8ca 100644
      i = (int)htbl->bits[l];
      if (i < 0 || p + i > 256)   /* protect against table overrun */
        ERREXIT(cinfo, JERR_BAD_HUFF_TABLE);
-@@ -205,7 +265,7 @@ jpeg_make_d_derived_tbl(j_decompress_ptr cinfo, boolean isDC, int tblno,
+@@ -205,7 +266,7 @@ jpeg_make_d_derived_tbl(j_decompress_ptr cinfo, boolean isDC, int tblno,
    /* Figure F.15: generate decoding tables for bit-sequential decoding */
  
    p = 0;
@@ -112,7 +113,7 @@ index 679d221..dbac8ca 100644
      if (htbl->bits[l]) {
        /* valoffset[l] = huffval[] index of 1st symbol of code length l,
         * minus the minimum code of length l
-@@ -227,18 +287,107 @@ jpeg_make_d_derived_tbl(j_decompress_ptr cinfo, boolean isDC, int tblno,
+@@ -227,18 +288,107 @@ jpeg_make_d_derived_tbl(j_decompress_ptr cinfo, boolean isDC, int tblno,
     * with that code.
     */
  
@@ -231,7 +232,7 @@ index 679d221..dbac8ca 100644
        }
      }
    }
-@@ -291,6 +440,8 @@ jpeg_fill_bit_buffer(bitread_working_state *state,
+@@ -291,6 +441,8 @@ jpeg_fill_bit_buffer(bitread_working_state *state,
    register const JOCTET *next_input_byte = state->next_input_byte;
    register size_t bytes_in_buffer = state->bytes_in_buffer;
    j_decompress_ptr cinfo = state->cinfo;
@@ -240,7 +241,7 @@ index 679d221..dbac8ca 100644
  
    /* Attempt to load at least MIN_GET_BITS bits into get_buffer. */
    /* (It is assumed that no request will be for more than that many bits.) */
-@@ -302,10 +453,50 @@ jpeg_fill_bit_buffer(bitread_working_state *state,
+@@ -302,10 +454,50 @@ jpeg_fill_bit_buffer(bitread_working_state *state,
  
        /* Attempt to read a byte */
        if (bytes_in_buffer == 0) {
@@ -295,7 +296,7 @@ index 679d221..dbac8ca 100644
        }
        bytes_in_buffer--;
        c = *next_input_byte++;
-@@ -319,10 +510,50 @@ jpeg_fill_bit_buffer(bitread_working_state *state,
+@@ -319,10 +511,50 @@ jpeg_fill_bit_buffer(bitread_working_state *state,
           */
          do {
            if (bytes_in_buffer == 0) {
@@ -350,7 +351,7 @@ index 679d221..dbac8ca 100644
            }
            bytes_in_buffer--;
            c = *next_input_byte++;
-@@ -460,7 +691,7 @@ jpeg_huff_decode(bitread_working_state *state,
+@@ -460,7 +692,7 @@ jpeg_huff_decode(bitread_working_state *state,
  
    /* With garbage input we may reach the sentinel value l = 17. */
  
@@ -359,7 +360,7 @@ index 679d221..dbac8ca 100644
      WARNMS(state->cinfo, JWRN_HUFF_BAD_CODE);
      return 0;                   /* fake a zero as the safest result */
    }
-@@ -468,39 +699,6 @@ jpeg_huff_decode(bitread_working_state *state,
+@@ -468,39 +700,6 @@ jpeg_huff_decode(bitread_working_state *state,
    return htbl->pub->huffval[(int)(code + htbl->valoffset[l])];
  }
  
@@ -399,7 +400,7 @@ index 679d221..dbac8ca 100644
  /*
   * Check for a restart marker & resynchronize decoder.
   * Returns FALSE if must suspend.
-@@ -556,7 +754,11 @@ decode_mcu_slow(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
+@@ -556,7 +755,11 @@ decode_mcu_slow(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
    /* Outer loop handles each block in the MCU */
  
    /* Load up working state */
@@ -412,7 +413,7 @@ index 679d221..dbac8ca 100644
    state = entropy->saved;
  
    for (blkn = 0; blkn < cinfo->blocks_in_MCU; blkn++) {
-@@ -599,25 +801,62 @@ decode_mcu_slow(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
+@@ -599,25 +802,62 @@ decode_mcu_slow(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
        /* Section F.2.2.2: decode the AC coefficients */
        /* Since zeroes are skipped, output area must be cleared beforehand */
        for (k = 1; k < DCTSIZE2; k++) {
@@ -493,7 +494,7 @@ index 679d221..dbac8ca 100644
          }
        }
  
-@@ -626,26 +865,62 @@ decode_mcu_slow(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
+@@ -626,26 +866,62 @@ decode_mcu_slow(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
        /* Section F.2.2.2: decode the AC coefficients */
        /* In this path we just discard the values */
        for (k = 1; k < DCTSIZE2; k++) {
@@ -569,7 +570,7 @@ index 679d221..dbac8ca 100644
    entropy->saved = state;
    return TRUE;
  }
-@@ -668,7 +943,11 @@ decode_mcu_fast(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
+@@ -668,7 +944,11 @@ decode_mcu_fast(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
    /* Outer loop handles each block in the MCU */
  
    /* Load up working state */
@@ -582,7 +583,7 @@ index 679d221..dbac8ca 100644
    buffer = (JOCTET *)br_state.next_input_byte;
    state = entropy->saved;
  
-@@ -678,6 +957,7 @@ decode_mcu_fast(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
+@@ -678,6 +958,7 @@ decode_mcu_fast(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
      d_derived_tbl *actbl = entropy->ac_cur_tbls[blkn];
      register int s, k, r, l;
  
@@ -590,7 +591,7 @@ index 679d221..dbac8ca 100644
      HUFF_DECODE_FAST(s, l, dctbl);
      if (s) {
        FILL_BIT_BUFFER_FAST
-@@ -699,36 +979,93 @@ decode_mcu_fast(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
+@@ -699,36 +980,93 @@ decode_mcu_fast(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
      if (entropy->ac_needed[blkn] && block) {
  
        for (k = 1; k < DCTSIZE2; k++) {
@@ -706,7 +707,7 @@ index 679d221..dbac8ca 100644
          }
        }
      }
-@@ -741,7 +1078,11 @@ decode_mcu_fast(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
+@@ -741,7 +1079,11 @@ decode_mcu_fast(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
  
    br_state.bytes_in_buffer -= (buffer - br_state.next_input_byte);
    br_state.next_input_byte = buffer;
@@ -719,7 +720,7 @@ index 679d221..dbac8ca 100644
    entropy->saved = state;
    return TRUE;
  }
-@@ -778,9 +1119,16 @@ decode_mcu(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
+@@ -778,9 +1120,16 @@ decode_mcu(j_decompress_ptr cinfo, JBLOCKROW *MCU_data)
      usefast = 0;
    }
  
@@ -739,7 +740,7 @@ index 679d221..dbac8ca 100644
  
    /* If we've run out of data, just leave the MCU set to zeroes.
     * This way, we return uniform gray for the remainder of the segment.
-@@ -826,6 +1174,8 @@ jinit_huff_decoder(j_decompress_ptr cinfo)
+@@ -826,6 +1175,8 @@ jinit_huff_decoder(j_decompress_ptr cinfo)
    cinfo->entropy = (struct jpeg_entropy_decoder *)entropy;
    entropy->pub.start_pass = start_pass_huff_decoder;
    entropy->pub.decode_mcu = decode_mcu;
@@ -748,11 +749,11 @@ index 679d221..dbac8ca 100644
  
    /* Mark tables unallocated */
    for (i = 0; i < NUM_HUFF_TBLS; i++) {
-diff --git a/libjpeg-turbo/libjpeg-turbo-2.1.1/jdhuff.h b/libjpeg-turbo/libjpeg-turbo-2.1.1/jdhuff.h
-index cfa0b7f..594c32a 100644
---- a/libjpeg-turbo/libjpeg-turbo-2.1.1/jdhuff.h
-+++ b/libjpeg-turbo/libjpeg-turbo-2.1.1/jdhuff.h
-@@ -16,10 +16,56 @@
+diff --git a/jdhuff.h b/jdhuff.h
+index cfa0b7f..b83393b 100644
+--- a/jdhuff.h
++++ b/jdhuff.h
+@@ -16,10 +16,53 @@
  
  #include "jconfigint.h"
  
@@ -778,10 +779,7 @@ index cfa0b7f..594c32a 100644
 +#define NB_OFFSET 11
 +#define NB_BITS 5
 +#define COEF1_OFFSET 16
-+#define COEF2_OFFSET 32
 +#define COEF_VALUE_BITS 16
-+#define ZERO_NUM2_OFFSET 48
-+#define NB2_OFFSET 55
 +
 +#define EXTRA_BITS_OFFSET COEF_BITS_OFFSET  // 2nd table offset bits
 +#define EXTRA_BITS_BITS COEF_BITS_BITS
@@ -810,16 +808,16 @@ index cfa0b7f..594c32a 100644
  
  typedef struct {
    /* Basic tables: (element [0] of each array is unused) */
-@@ -44,7 +90,7 @@ typedef struct {
+@@ -44,7 +87,7 @@ typedef struct {
     * if too long.  The next 8 bits of each entry contain the
     * symbol.
     */
 -  int lookup[1 << HUFF_LOOKAHEAD];
-+  uint64_t lookup[(1 << HUFF_LOOKAHEAD) + HUFF_CODE_LARGE_LONG_ALIGNED];
++  int lookup[(1 << HUFF_LOOKAHEAD) + HUFF_CODE_LARGE_LONG_ALIGNED];
  } d_derived_tbl;
  
  /* Expand a Huffman table definition into the derived format */
-@@ -130,12 +176,25 @@ typedef struct {                /* Bitreading working state within an MCU */
+@@ -130,12 +173,25 @@ typedef struct {                /* Bitreading working state within an MCU */
    get_buffer = permstate.get_buffer; \
    bits_left = permstate.bits_left;
  
@@ -845,10 +843,10 @@ index cfa0b7f..594c32a 100644
  /*
   * These macros provide the in-line portion of bit fetching.
   * Use CHECK_BIT_BUFFER to ensure there are N bits in get_buffer
-diff --git a/libjpeg-turbo/libjpeg-turbo-2.1.1/jdphuff.c b/libjpeg-turbo/libjpeg-turbo-2.1.1/jdphuff.c
+diff --git a/jdphuff.c b/jdphuff.c
 index c6d82ca..00ed535 100644
---- a/libjpeg-turbo/libjpeg-turbo-2.1.1/jdphuff.c
-+++ b/libjpeg-turbo/libjpeg-turbo-2.1.1/jdphuff.c
+--- a/jdphuff.c
++++ b/jdphuff.c
 @@ -52,7 +52,7 @@ typedef struct {
  
    /* These fields are NOT loaded into local working state. */
@@ -1008,10 +1006,10 @@ index c6d82ca..00ed535 100644
    cinfo->entropy = (struct jpeg_entropy_decoder *)entropy;
    entropy->pub.start_pass = start_pass_phuff_decoder;
  
-diff --git a/libjpeg-turbo/libjpeg-turbo-2.1.1/jutils.c b/libjpeg-turbo/libjpeg-turbo-2.1.1/jutils.c
+diff --git a/jutils.c b/jutils.c
 index 5c5bb17..23931b7 100644
---- a/libjpeg-turbo/libjpeg-turbo-2.1.1/jutils.c
-+++ b/libjpeg-turbo/libjpeg-turbo-2.1.1/jutils.c
+--- a/jutils.c
++++ b/jutils.c
 @@ -53,7 +53,7 @@ const int jpeg_zigzag_order[DCTSIZE2] = {
   * fake entries.
   */
