@@ -35,6 +35,7 @@ def move_file(src_path, dst_path):
         "Add-loongarch64.patch",
         "libjpeg-turbo-2.1.x-bugfix.patch",
         "liteos_adapting.patch",
+        "libjpeg-turbo-optimize.patch",
         "jconfig.h",
         "jconfigint.h",
         "jversion.h.in"
@@ -64,6 +65,7 @@ def do_patch(target_dir):
         "Add-loongarch64.patch",
         "libjpeg-turbo-2.1.x-bugfix.patch",
         "liteos_adapting.patch",
+        "libjpeg-turbo-optimize.patch",
     ]
 
     for patch in patch_file:
