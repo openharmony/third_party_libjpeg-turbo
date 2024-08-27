@@ -44,7 +44,6 @@ action("libjpeg_action") {
     "${target_gen_dir}/libjpeg-turbo-2.1.1/jdcoefct.c",
     "${target_gen_dir}/libjpeg-turbo-2.1.1/jdcolor.c",
     "${target_gen_dir}/libjpeg-turbo-2.1.1/jddctmgr.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdhuff.c",
     "${target_gen_dir}/libjpeg-turbo-2.1.1/jdicc.c",
     "${target_gen_dir}/libjpeg-turbo-2.1.1/jdinput.c",
     "${target_gen_dir}/libjpeg-turbo-2.1.1/jdmainct.c",
@@ -69,6 +68,12 @@ action("libjpeg_action") {
     "${target_gen_dir}/libjpeg-turbo-2.1.1/jquant2.c",
     "${target_gen_dir}/libjpeg-turbo-2.1.1/jutils.c",
   ]
+
+  if (target_platform == "pc") {
+    outputs += [ "${target_gen_dir}/libjpeg-turbo-2.1.1/jdhuff_opt.c" ]
+  } else {
+    outputs += [ "${target_gen_dir}/libjpeg-turbo-2.1.1/jdhuff.c" ]
+  }
 
   mkernel = defined(ohos_kernel_type) && ohos_kernel_type == "liteos_m"
   if (mkernel || is_win) {
@@ -178,6 +183,9 @@ if (!defined(ohos_lite)) {
 config("turbojpeg_config") {
   include_dirs += [ "${target_gen_dir}/libjpeg-turbo-2.1.1" ]
   defines = define_config
+  if (target_platform == "pc") {
+    defines += [ "HUFF_DECODE_OPT" ]
+  }
 }
 
 if (defined(ohos_lite)) {
