@@ -17,6 +17,31 @@ if (defined(ohos_lite)) {
   import("//build/ohos.gni")
 }
 
+config("turbojpeg_opt") {
+  if (target_platform == "pc") {
+    if (is_ohos && is_clang && (target_cpu == "arm" || target_cpu == "arm64")) {
+      defines = [ "HUFF_DECODE_OPT" ]
+    }
+  }
+}
+
+config("turbojpeg_local_symbol_first") {
+  if (target_platform == "pc") {
+    if (is_ohos && is_clang && (target_cpu == "arm" || target_cpu == "arm64")) {
+      ldflags = [ "-Wl,-Bsymbolic" ]
+    }
+  }
+}
+
+config("turbojpeg_hide_symbol") {
+  if (target_platform == "pc") {
+    if (is_ohos && is_clang && (target_cpu == "arm" || target_cpu == "arm64")) {
+      cflags = [ "-fvisibility=hidden" ]
+      defines = [ "HIDE_INTERNAL" ]
+    }
+  }
+}
+
 action("libjpeg_action") {
   script = "//third_party/libjpeg-turbo/install.py"
   outputs = [
@@ -183,9 +208,6 @@ if (!defined(ohos_lite)) {
 config("turbojpeg_config") {
   include_dirs += [ "${target_gen_dir}/libjpeg-turbo-2.1.1" ]
   defines = define_config
-  if (target_platform == "pc") {
-    defines += [ "HUFF_DECODE_OPT" ]
-  }
 }
 
 if (defined(ohos_lite)) {
@@ -211,6 +233,10 @@ if (defined(ohos_lite)) {
   ohos_static_library("turbojpeg_static") {
     sources = get_target_outputs(":libjpeg_action")
     public_configs = [ ":turbojpeg_config" ]
+    configs = [
+      ":turbojpeg_opt",
+      ":turbojpeg_hide_symbol",
+    ]
     deps = [ ":libjpeg_action" ]
     part_name = "libjpeg-turbo"
     subsystem_name = "thirdparty"
@@ -218,6 +244,10 @@ if (defined(ohos_lite)) {
   ohos_shared_library("turbojpeg") {
     sources = get_target_outputs(":libjpeg_action")
     public_configs = [ ":turbojpeg_config" ]
+    configs = [
+      ":turbojpeg_opt",
+      ":turbojpeg_local_symbol_first",
+    ]
     deps = [ ":libjpeg_action" ]
     innerapi_tags = [ "platformsdk" ]
     part_name = "libjpeg-turbo"
