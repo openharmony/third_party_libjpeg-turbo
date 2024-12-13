@@ -44,6 +44,7 @@
                 <filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/>
                 <filteritem type="filename" name="*.tar.gz" desc="zip package"/>
                 <filteritem type="filename" name="*.spec" desc="configuration specification file"/>
+                <filteritem type="filepath" name="libjpeg-turbo-2.1.1/*" desc="zip package"/>
             </filefilter>
             <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
             </filefilter>
