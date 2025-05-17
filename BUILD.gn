@@ -25,121 +25,128 @@ declare_args() {
 action("libjpeg_action") {
   script = "//third_party/libjpeg-turbo/install.py"
   outputs = [
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jcapimin.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jcapistd.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jccoefct.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jccolor.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jcdctmgr.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jchuff.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jcicc.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jcinit.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jcmainct.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jcmarker.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jcmaster.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jcomapi.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jcparam.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jcphuff.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jcprepct.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jcsample.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jctrans.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdapimin.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdapistd.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdatadst.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdatasrc.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdcoefct.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdcolor.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jddctmgr.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdicc.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdinput.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdmainct.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdmarker.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdmaster.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdmerge.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdphuff.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdpostct.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdsample.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jdtrans.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jerror.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jfdctflt.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jfdctfst.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jfdctint.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jidctflt.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jidctfst.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jidctint.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jidctred.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jmemmgr.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jmemnobs.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jquant1.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jquant2.c",
-    "${target_gen_dir}/libjpeg-turbo-2.1.1/jutils.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jddiffct.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jpeg_nbits.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdlhuff.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdlossls.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcdiffct.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jclossls.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jclhuff.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcapimin.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcapistd.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jccoefct.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jccolor.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcdctmgr.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jchuff.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcicc.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcinit.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcmainct.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcmarker.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcmaster.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcomapi.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcparam.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcphuff.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcprepct.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcsample.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jctrans.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdapimin.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdapistd.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdatadst.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdatasrc.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdcoefct.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdcolor.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jddctmgr.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdicc.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdinput.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdmainct.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdmarker.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdmaster.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdmerge.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdphuff.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdpostct.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdsample.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdtrans.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jerror.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jfdctflt.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jfdctfst.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jfdctint.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jidctflt.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jidctfst.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jidctint.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jidctred.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jmemmgr.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jmemnobs.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jquant1.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jquant2.c",
+    "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jutils.c",
   ]
 
   if (is_arm_ohos_clang_pc) {
-    outputs += [ "${target_gen_dir}/libjpeg-turbo-2.1.1/jdhuff_opt.c" ]
+    outputs += [ "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdhuff_opt.c" ]
   } else {
-    outputs += [ "${target_gen_dir}/libjpeg-turbo-2.1.1/jdhuff.c" ]
+    outputs += [ "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdhuff.c" ]
   }
 
   mkernel = defined(ohos_kernel_type) && ohos_kernel_type == "liteos_m"
   if (mkernel || is_win) {
-    outputs += [ "${target_gen_dir}/libjpeg-turbo-2.1.1/jsimd_none.c" ]
+    outputs += [ "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jsimd_none.c" ]
   } else if (current_cpu == "arm" || current_cpu == "arm64") {
     outputs += [
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jcgray-neon.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jcphuff-neon.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jcsample-neon.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jdmerge-neon.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jdsample-neon.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jfdctfst-neon.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jidctred-neon.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jquanti-neon.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jcgray-neon.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jcphuff-neon.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jcsample-neon.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jdmerge-neon.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jdsample-neon.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jfdctfst-neon.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jidctred-neon.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jquanti-neon.c",
     ]
 
     # NEON_INTRINSICS as default
     outputs += [
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jccolor-neon.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jidctfst-neon.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jidctint-neon.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jccolor-neon.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jidctfst-neon.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jidctint-neon.c",
     ]
     if (current_cpu == "arm") {
       outputs += [
-        "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/aarch32/jchuff-neon.c",
-        "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/aarch32/jsimd.c",
-        "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jdcolor-neon.c",
-        "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jfdctint-neon.c",
+        "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/aarch32/jchuff-neon.c",
+        "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/aarch32/jsimd.c",
+        "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jdcolor-neon.c",
+        "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jfdctint-neon.c",
       ]
     } else {
       outputs += [
-        "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/aarch64/jchuff-neon.c",
-        "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/aarch64/jsimd.c",
-        "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jdcolor-neon.c",
-        "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm/jfdctint-neon.c",
+        "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/aarch64/jchuff-neon.c",
+        "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/aarch64/jsimd.c",
+        "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jdcolor-neon.c",
+        "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm/jfdctint-neon.c",
       ]
     }
   } else {
-    outputs += [ "${target_gen_dir}/libjpeg-turbo-2.1.1/jsimd_none.c" ]
+    outputs += [ "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jsimd_none.c" ]
   }
 
   if (!defined(ohos_lite)) {
     outputs += [
       # enable arith codec
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/jaricom.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/jcarith.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/jdarith.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/jdatadst-tj.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/jdatasrc-tj.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/rdbmp.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/rdppm.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/transupp.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jaricom.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jcarith.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdarith.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdatadst-tj.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/src/jdatasrc-tj.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/src/rdbmp.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/src/rdppm.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/src/transupp.c",
 
       # enable turbo
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/turbojpeg.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/wrbmp.c",
-      "${target_gen_dir}/libjpeg-turbo-2.1.1/wrppm.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/src/turbojpeg.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/src/wrbmp.c",
+      "${target_gen_dir}/libjpeg-turbo-3.1.0/src/wrppm.c",
     ]
   }
 
-  inputs = [ "//third_party/libjpeg-turbo/libjpeg-turbo-2.1.1.tar.gz" ]
+  inputs = [ "//third_party/libjpeg-turbo/libjpeg-turbo-3.1.0.tar.gz" ]
   libjpeg_path = rebase_path("${target_gen_dir}", root_build_dir)
   libjpeg_source_path =
       rebase_path("//third_party/libjpeg-turbo", root_build_dir)
@@ -167,7 +174,7 @@ if (mkernel || is_win) {
     "-DNEON_INTRINSICS",
     "-Wno-pointer-sign",
   ]
-  include_dirs += [ "${target_gen_dir}/libjpeg-turbo-2.1.1/simd/arm" ]
+  include_dirs += [ "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm" ]
   if (current_cpu == "arm") {
     cflags += [
       "-mfpu=neon",
@@ -186,7 +193,7 @@ if (!defined(ohos_lite)) {
 }
 
 config("turbojpeg_config") {
-  include_dirs += [ "${target_gen_dir}/libjpeg-turbo-2.1.1" ]
+  include_dirs += [ "${target_gen_dir}/libjpeg-turbo-3.1.0/src" ]
   defines = define_config
 }
 
