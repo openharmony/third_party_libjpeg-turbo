@@ -34,7 +34,7 @@
             <filefilter name="defaultFilter" desc="Files not to check">
                 <filteritem type="filename" name="README.ijg" desc="license statement"/>
                 <filteritem type="filepath" name="release/*" desc="release notes and license statement"/>
-                <filteritem type="filepath" name="md5/*" desc="md5 tools for test"/>
+                <filteritem type="filepath" name="src/md5/*" desc="md5 tools for test"/>
                 <filteritem type="filepath" name="doc/*" desc="docs"/>
                 <filteritem type="filepath" name="testimages/*" desc="tests"/>
                 <filteritem type="filepath" name="ci/*" desc="ci config"/>
@@ -44,7 +44,7 @@
                 <filteritem type="filepath" name="projectroot/[a-zA-Z0-9]{20,}.sh" desc="Temp files"/>
                 <filteritem type="filename" name="*.tar.gz" desc="zip package"/>
                 <filteritem type="filename" name="*.spec" desc="configuration specification file"/>
-                <filteritem type="filepath" name="libjpeg-turbo-2.1.1/*" desc="zip package"/>
+                <filteritem type="filepath" name="libjpeg-turbo-3.1.0/*" desc="zip package"/>
             </filefilter>
             <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
             </filefilter>

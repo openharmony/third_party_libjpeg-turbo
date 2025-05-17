@@ -1,7 +1,7 @@
-diff --git a/cdjpeg.h b/cdjpeg.h
+diff --git a/src/cdjpeg.h b/src/cdjpeg.h
 index 082687c..840cd2d 100644
---- a/cdjpeg.h
-+++ b/cdjpeg.h
+--- a/src/cdjpeg.h
++++ b/src/cdjpeg.h
 @@ -103,39 +103,39 @@ typedef struct cdjpeg_progress_mgr *cd_progress_ptr;
  
  /* Module selection routines for I/O modules. */
@@ -61,10 +61,10 @@ index 082687c..840cd2d 100644
  
  /* miscellaneous useful macros */
  
-diff --git a/jchuff.h b/jchuff.h
+diff --git a/src/jchuff.h b/src/jchuff.h
 index da7809a..57e9f8c 100644
---- a/jchuff.h
-+++ b/jchuff.h
+--- a/src/jchuff.h
++++ b/src/jchuff.h
 @@ -42,9 +42,9 @@ typedef struct {
  } c_derived_tbl;
  
@@ -77,10 +77,10 @@ index da7809a..57e9f8c 100644
 -EXTERN(void) jpeg_gen_optimal_table(j_compress_ptr cinfo, JHUFF_TBL *htbl,
 +HIDE(EXTERN)(void) jpeg_gen_optimal_table(j_compress_ptr cinfo, JHUFF_TBL *htbl,
                                      long freq[]);
-diff --git a/jdatadst-tj.c b/jdatadst-tj.c
+diff --git a/src/jdatadst-tj.c b/src/jdatadst-tj.c
 index fdaa2de..dc53970 100644
---- a/jdatadst-tj.c
-+++ b/jdatadst-tj.c
+--- a/src/jdatadst-tj.c
++++ b/src/jdatadst-tj.c
 @@ -27,7 +27,7 @@
  extern void *malloc(size_t size);
  extern void free(void *ptr);
@@ -90,10 +90,10 @@ index fdaa2de..dc53970 100644
                        unsigned long *outsize, boolean alloc);
  
  
-diff --git a/jdatasrc-tj.c b/jdatasrc-tj.c
+diff --git a/src/jdatasrc-tj.c b/src/jdatasrc-tj.c
 index 69fb5ea..1808dd9 100644
---- a/jdatasrc-tj.c
-+++ b/jdatasrc-tj.c
+--- a/src/jdatasrc-tj.c
++++ b/src/jdatasrc-tj.c
 @@ -23,7 +23,7 @@
  #include "jpeglib.h"
  #include "jerror.h"
@@ -103,10 +103,10 @@ index 69fb5ea..1808dd9 100644
                       unsigned long insize);
  
  
-diff --git a/jdct.h b/jdct.h
+diff --git a/src/jdct.h b/src/jdct.h
 index 66d1718..7273ec0 100644
---- a/jdct.h
-+++ b/jdct.h
+--- a/src/jdct.h
++++ b/src/jdct.h
 @@ -90,62 +90,62 @@ typedef FAST_FLOAT FLOAT_MULT_TYPE;  /* preferred floating type */
  
  /* Extern declarations for the forward and inverse DCT routines. */
@@ -191,10 +191,10 @@ index 66d1718..7273ec0 100644
                               jpeg_component_info *compptr, JCOEFPTR coef_block,
                               JSAMPARRAY output_buf, JDIMENSION output_col);
  
-diff --git a/jdhuff.h b/jdhuff.h
+diff --git a/src/jdhuff.h b/src/jdhuff.h
 index cfa0b7f..6cc2344 100644
---- a/jdhuff.h
-+++ b/jdhuff.h
+--- a/src/jdhuff.h
++++ b/src/jdhuff.h
 @@ -16,10 +16,55 @@
  
  #include "jconfigint.h"
@@ -286,11 +286,11 @@ index cfa0b7f..6cc2344 100644
                               register bit_buf_type get_buffer,
                               register int bits_left, d_derived_tbl *htbl,
                               int min_bits);
-diff --git a/jdhuff_opt.c b/jdhuff_opt.c
+diff --git a/src/jdhuff_opt.c b/src/jdhuff_opt.c
 new file mode 100644
 index 0000000..5b1875c
 --- /dev/null
-+++ b/jdhuff_opt.c
++++ b/src/jdhuff_opt.c
 @@ -0,0 +1,1046 @@
 +/*
 + * jdhuff_opt.c
@@ -1338,10 +1338,10 @@ index 0000000..5b1875c
 +    entropy->dc_derived_tbls[i] = entropy->ac_derived_tbls[i] = NULL;
 +  }
 +}
-diff --git a/jdphuff.c b/jdphuff.c
+diff --git a/src/jdphuff.c b/src/jdphuff.c
 index c6d82ca..25e3b1d 100644
---- a/jdphuff.c
-+++ b/jdphuff.c
+--- a/src/jdphuff.c
++++ b/src/jdphuff.c
 @@ -71,6 +71,129 @@ METHODDEF(boolean) decode_mcu_DC_refine(j_decompress_ptr cinfo,
  METHODDEF(boolean) decode_mcu_AC_refine(j_decompress_ptr cinfo,
                                          JBLOCKROW *MCU_data);
@@ -1495,10 +1495,10 @@ index c6d82ca..25e3b1d 100644
        /* remember the single active table */
        entropy->ac_derived_tbl = entropy->derived_tbls[tbl];
      }
-diff --git a/jmemsys.h b/jmemsys.h
+diff --git a/src/jmemsys.h b/src/jmemsys.h
 index 9229550..a17f46c 100644
---- a/jmemsys.h
-+++ b/jmemsys.h
+--- a/src/jmemsys.h
++++ b/src/jmemsys.h
 @@ -31,8 +31,8 @@
   * size of the object being freed, just in case it's needed.
   */
@@ -1547,10 +1547,10 @@ index 9229550..a17f46c 100644
 -EXTERN(void) jpeg_mem_term(j_common_ptr cinfo);
 +HIDE(EXTERN)(long) jpeg_mem_init(j_common_ptr cinfo);
 +HIDE(EXTERN)(void) jpeg_mem_term(j_common_ptr cinfo);
-diff --git a/jmorecfg.h b/jmorecfg.h
+diff --git a/src/jmorecfg.h b/src/jmorecfg.h
 index 1a63a14..f4b3903 100644
---- a/jmorecfg.h
-+++ b/jmorecfg.h
+--- a/src/jmorecfg.h
++++ b/src/jmorecfg.h
 @@ -178,7 +178,12 @@ typedef unsigned int JDIMENSION;
  #define GLOBAL(type)            type
  /* a reference to a GLOBAL function: */
@@ -1565,10 +1565,10 @@ index 1a63a14..f4b3903 100644
  
  /* Originally, this macro was used as a way of defining function prototypes
   * for both modern compilers as well as older compilers that did not support
-diff --git a/jpegint.h b/jpegint.h
+diff --git a/src/jpegint.h b/src/jpegint.h
 index 8c85347..7798a89 100644
---- a/jpegint.h
-+++ b/jpegint.h
+--- a/src/jpegint.h
++++ b/src/jpegint.h
 @@ -318,53 +318,53 @@ struct jpeg_color_quantizer {
  
  
@@ -1656,10 +1656,10 @@ index 8c85347..7798a89 100644
  /* Constant tables in jutils.c */
  #if 0                           /* This table is not actually needed in v6a */
  extern const int jpeg_zigzag_order[]; /* natural coef order to zigzag order */
-diff --git a/jsimd.h b/jsimd.h
+diff --git a/src/jsimd.h b/src/jsimd.h
 index f3a87ee..ea094f6 100644
---- a/jsimd.h
-+++ b/jsimd.h
+--- a/src/jsimd.h
++++ b/src/jsimd.h
 @@ -14,110 +14,110 @@
  
  #include "jchuff.h"             /* Declarations shared with jcphuff.c */
@@ -1809,10 +1809,10 @@ index f3a87ee..ea094f6 100644
 +HIDE(EXTERN)(int) jsimd_encode_mcu_AC_refine_prepare
    (const JCOEF *block, const int *jpeg_natural_order_start, int Sl, int Al,
     UJCOEF *absvalues, size_t *bits);
-diff --git a/jsimddct.h b/jsimddct.h
+diff --git a/src/jsimddct.h b/src/jsimddct.h
 index 55ee8cf..c19fe41 100644
---- a/jsimddct.h
-+++ b/jsimddct.h
+--- a/src/jsimddct.h
++++ b/src/jsimddct.h
 @@ -9,62 +9,62 @@
   *
   */
@@ -1904,10 +1904,10 @@ index 55ee8cf..c19fe41 100644
                                jpeg_component_info *compptr,
                                JCOEFPTR coef_block, JSAMPARRAY output_buf,
                                JDIMENSION output_col);
-diff --git a/jutils.c b/jutils.c
+diff --git a/src/jutils.c b/src/jutils.c
 index 5c5bb17..cd14e74 100644
---- a/jutils.c
-+++ b/jutils.c
+--- a/src/jutils.c
++++ b/src/jutils.c
 @@ -53,6 +53,27 @@ const int jpeg_zigzag_order[DCTSIZE2] = {
   * fake entries.
   */
