@@ -36,11 +36,11 @@ def move_file(src_path, dst_path):
         "libjpeg-turbo-2.1.x-bugfix.patch",
         "liteos_adapting.patch",
         "libjpeg-turbo-optimize.patch",
-        "jconfig.h",
-        "jconfigint.h",
+        "src/jconfig.h",
+        "src/jconfigint.h",
         "jversion.h.in"
     ]
-    neon_compat_src_path = os.path.join(src_path, "neon-compat.h")
+    neon_compat_src_path = os.path.join(src_path, "src/neon-compat.h")
     neon_compat_dst_path = os.path.join(dst_path, "simd/arm/neon-compat.h")
     shutil.copy(neon_compat_src_path, neon_compat_dst_path)
     for file in files:
@@ -77,8 +77,8 @@ def main():
     freetype_path.add_argument('--gen-dir', help='generate path of log', required=True)
     freetype_path.add_argument('--source-dir', help='generate path of log', required=True)
     args = freetype_path.parse_args()
-    tar_file_path = os.path.join(args.source_dir, "libjpeg-turbo-2.1.1.tar.gz")
-    target_dir = os.path.join(args.gen_dir, "libjpeg-turbo-2.1.1")
+    tar_file_path = os.path.join(args.source_dir, "libjpeg-turbo-3.1.0.tar.gz")
+    target_dir = os.path.join(args.gen_dir, "libjpeg-turbo-3.1.0")
 
     untar_file(tar_file_path, args.gen_dir)
     move_file(args.source_dir, target_dir)

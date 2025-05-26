@@ -1,6 +1,6 @@
 Name:           libjpeg-turbo
-Version:        2.1.1
-Release:        5
+Version:        3.1.0
+Release:        1
 Summary:        MMX/SSE2/SIMD accelerated libjpeg-compatible JPEG codec library
 License:        IJG
 URL:            http://sourceforge.net/projects/libjpeg-turbo
@@ -11,8 +11,8 @@ Patch0001:      Add-loongarch64.patch
 
 BuildRequires:  gcc cmake libtool nasm
 
-Obsoletes:      libjpeg < 6b-47 turbojpeg < %{version}-%{release}  
-Provides:       libjpeg = 6b-47 turbojpeg = %{version}-%{release}  
+Obsoletes:      libjpeg < 6b-47 turbojpeg < %{version}-%{release}
+Provides:       libjpeg = 6b-47 turbojpeg = %{version}-%{release}
 
 %description
 libjpeg-turbo is a JPEG image codec that uses SIMD instructions (MMX, SSE2, NEON, AltiVec)
@@ -33,7 +33,7 @@ Development files for the libjpeg-turbo library.
 %package utils
 Summary:        Utilities for manipulating JPEG images
 Requires:       libjpeg-turbo%{?_isa} = %{version}-%{release}
- 
+
 %description utils
 The libjpeg-turbo-utils package contains simple client programs for accessing
 the libjpeg functions. It contains cjpeg, djpeg, jpegtran, rdjpgcom and
@@ -44,14 +44,14 @@ JPEG file. Wrjpgcom inserts text comments into a JPEG file.
 
 %package -n turbojpeg
 Summary:        TurboJPEG library
- 
+
 %description -n turbojpeg
 The turbojpeg package contains the TurboJPEG shared library.
 
 %package -n turbojpeg-devel
 Summary:        Headers for the TurboJPEG library
 Requires:       turbojpeg%{?_isa} = %{version}-%{release}
- 
+
 %description -n turbojpeg-devel
 This package contains header files necessary for developing programs which will
 manipulate JPEG files using the TurboJPEG library.
@@ -99,7 +99,7 @@ then
 #endif
 EOF
 fi
-    
+
 %check
 LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test %{?_smp_mflags}
 
@@ -113,7 +113,7 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test %{?_smp_mflags}
 %exclude /usr/share/doc/libjpeg-turbo/*
 
 %files devel
-%doc coderules.txt jconfig.txt libjpeg.txt structure.txt example.txt 
+%doc coderules.txt jconfig.txt libjpeg.txt structure.txt example.txt
 %exclude %{_includedir}/turbojpeg.h
 %{_includedir}/*.h
 %{_libdir}/libjpeg.so
@@ -144,6 +144,9 @@ LD_LIBRARY_PATH=%{buildroot}%{_libdir} make test %{?_smp_mflags}
 %{_mandir}/man1/*.1*
 
 %changelog
+* Mon May 15 2025 guoqinglan <guoqinglan@kylinsec.com.cn> - 3.1.0-1
+- fix build error for sw_64
+
 * Mon Apr 24 2023 guoqinglan <guoqinglan@kylinsec.com.cn> - 2.1.1-5
 - fix build error for sw_64
 
