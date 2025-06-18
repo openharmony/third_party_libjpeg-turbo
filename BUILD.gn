@@ -232,7 +232,10 @@ if (defined(ohos_lite)) {
     sources = get_target_outputs(":libjpeg_action")
     public_configs = [ ":turbojpeg_config" ]
     deps = [ ":libjpeg_action" ]
-    innerapi_tags = [ "platformsdk" ]
+    innerapi_tags = [ 
+        "platformsdk",
+        "chipsetsdk"  
+        ]
     part_name = "libjpeg-turbo"
     subsystem_name = "thirdparty"
     if (is_arm_ohos_clang_pc) {
