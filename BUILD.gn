@@ -194,6 +194,7 @@ if (!defined(ohos_lite)) {
 
 config("turbojpeg_config") {
   include_dirs += [ "${target_gen_dir}/libjpeg-turbo-3.1.0/src" ]
+  ldflags = [ "-Wl,--lto-O0" ]
   defines = define_config
 }
 
