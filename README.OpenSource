@@ -1,6 +1,6 @@
 [
     {
-        "Name": "openEuler:libjpeg-turbo",
+        "Name": "libjpeg-turbo",
         "License": "JPEG License",
         "License File": "LICENSE.md",
         "Version Number": "3.1.0",
