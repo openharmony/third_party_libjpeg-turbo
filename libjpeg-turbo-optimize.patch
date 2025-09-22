@@ -450,7 +450,7 @@ index 3eee002..af3d3a6 100644
                               int min_bits);
 diff --git a/src/jdhuff_opt.c b/src/jdhuff_opt.c
 new file mode 100644
-index 0000000..338da40
+index 0000000..956ead2
 --- /dev/null
 +++ b/src/jdhuff_opt.c
 @@ -0,0 +1,1050 @@
@@ -807,7 +807,7 @@ index 0000000..338da40
 +  for (i = 0; i < (1 << HUFF_LOOKAHEAD); i++) {
 +    dtbl->lookup[i] = (HUFF_LOOKAHEAD + 1) << HUFF_LOOKAHEAD;
 +  }
-+  for (i = 0; i < (1 << HUFF_LOOKAHEAD) + HUFF_CODE_LARGE_LONG_ALIGNED; i++) {
++  for (; i < (1 << HUFF_LOOKAHEAD) + HUFF_CODE_LARGE_LONG_ALIGNED; i++) {
 +    dtbl->lookup[i] = 0;
 +  }
 +
