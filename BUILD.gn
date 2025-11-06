@@ -146,7 +146,14 @@ action("libjpeg_action") {
     ]
   }
 
-  inputs = [ "//third_party/libjpeg-turbo/libjpeg-turbo-3.1.0.tar.gz" ]
+  inputs = [
+    "//third_party/libjpeg-turbo/libjpeg-turbo-3.1.0.tar.gz",
+    "//third_party/libjpeg-turbo/Add-loongarch64.patch",
+    "//third_party/libjpeg-turbo/libjpeg-turbo-2.1.x-bugfix.patch",
+    "//third_party/libjpeg-turbo/liteos_adapting.patch",
+    "//third_party/libjpeg-turbo/libjpeg-turbo-optimize.patch"
+  ]
+
   libjpeg_path = rebase_path("${target_gen_dir}", root_build_dir)
   libjpeg_source_path =
       rebase_path("//third_party/libjpeg-turbo", root_build_dir)
