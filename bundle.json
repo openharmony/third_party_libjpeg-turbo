@@ -29,7 +29,11 @@
             "sub_component": [ "//third_party/libjpeg-turbo:turbojpeg" ],
             "inner_kits": [
                 {
-                    "name": "//third_party/libjpeg-turbo:turbojpeg"
+                    "name": "//third_party/libjpeg-turbo:turbojpeg",
+                    "header": {
+                        "header_files": [],
+                        "header_base": "${root_gen_dir}/third_partylibjpeg-turbo/libjpeg-turbo-3.1.0/src"
+                    }
                 },
                 {
                     "name": "//third_party/libjpeg-turbo:turbojpeg_static"
