@@ -32,7 +32,7 @@
                     "name": "//third_party/libjpeg-turbo:turbojpeg",
                     "header": {
                         "header_files": [],
-                        "header_base": "${root_gen_dir}/third_partylibjpeg-turbo/libjpeg-turbo-3.1.0/src"
+                        "header_base": "${root_gen_dir}/third_party/libjpeg-turbo/libjpeg-turbo-3.1.0/src"
                     }
                 },
                 {
