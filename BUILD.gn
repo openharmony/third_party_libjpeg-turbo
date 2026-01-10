@@ -232,10 +232,11 @@ if (defined(ohos_lite)) {
   ohos_static_library("turbojpeg_static") {
     visibility = [
       ":*",
-      "//vendor/huawei/foundation/multmedia/algorithm_camera/refine_engine/algo_plugin/ipp/ITOF:libcamera_ips_ipp_itof",
+      "//vendor/huawei/foundation/multimedia/algorithm_camera/refine_engine/algo_plugin/ipp/ITOF:libcamera_ips_ipp_itof",
       "//ide/tools/previewer/test/unittest/jsapp_lite:jsapp_lite_test",
       "//ide/tools/previewer/test/unittest/mock:mock_rich_test",
       "//ide/tools/previewer/test/unittest/mock_lite:mock_lite_test",
+      "//ide/tools/previewer/mock:mock_lite",
       "//ide/tools/previewer/mock:mock_rich",
       "//drivers/peripheral/camera/vdi_base/usb_camera/pipeline_core:usb_camera_pipeline_core",
       "//test/testfwk/arkxtest/uitest:uitest_addon",
