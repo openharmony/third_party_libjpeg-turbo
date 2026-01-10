@@ -230,6 +230,27 @@ if (defined(ohos_lite)) {
   }
 } else {
   ohos_static_library("turbojpeg_static") {
+    visibility = [
+      ":*",
+      "//vendor/huawei/foundation/multmedia/algorithm_camera/refine_engine/algo_plugin/ipp/ITOF:libcamera_ips_ipp_itof",
+      "//ide/tools/previewer/test/unittest/jsapp_lite:jsapp_lite_test",
+      "//ide/tools/previewer/test/unittest/mock:mock_rich_test",
+      "//ide/tools/previewer/test/unittest/mock_lite:mock_lite_test",
+      "//ide/tools/previewer/mock:mock_rich",
+      "//drivers/peripheral/camera/vdi_base/usb_camera/pipeline_core:usb_camera_pipeline_core",
+      "//test/testfwk/arkxtest/uitest:uitest_addon",
+      "//foundation/arkui/ui_lite/ext/updater:libupdater_layout",
+      "//foundation/arkui/ui_lite/ext/ide:ui_ide",
+      "//foundation/arkui/ui_ext_lite/ext/updater:libupdater_layout",
+      "//foundation/arkui/ui_ext_lite/tools/ide:graphic_lite",
+      "//foundation/window/window_manager/dm/test/unittest:dm_unittest_common",
+      "//foundation/ability/ability_runtime/test/fuzztest/abilityframeworkscjenvironment_fuzzer:AbilityFrameworksCjEnvironmentFuzzTest",
+      "//foundation/ability/ability_runtime/test/fuzztest/openlinkoptions_fuzzer:OpenLinkOptionsFuzzTest",
+      "//foundation/ability/ability_runtime/test/fuzztest/freezeutil_fuzzer:FreezeUtilFuzzTest",
+      "//foundation/ability/ability_runtime/test/fuzztest/statusbardelegatemanager_fuzzer:StatusBarDelegateManagerFuzzTest",
+      "//out/*",
+      "//vendor/hisi/confidential/contexthub/src/framework/hisi/ui/third_party/*",
+    ]
     sources = get_target_outputs(":libjpeg_action")
     public_configs = [ ":turbojpeg_config" ]
     deps = [ ":libjpeg_action" ]
