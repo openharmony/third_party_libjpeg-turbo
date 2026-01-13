@@ -251,6 +251,7 @@ if (defined(ohos_lite)) {
       "//foundation/ability/ability_runtime/test/fuzztest/statusbardelegatemanager_fuzzer:StatusBarDelegateManagerFuzzTest",
       "//out/*",
       "//vendor/hisi/confidential/contexthub/src/framework/hisi/ui/third_party/*",
+      "//device/board/hihope/rk3568/camera/vdi_impl/v4l2/pipeline_core:camera_pipeline_core",
     ]
     sources = get_target_outputs(":libjpeg_action")
     public_configs = [ ":turbojpeg_config" ]
