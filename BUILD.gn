@@ -254,6 +254,9 @@ if (defined(ohos_lite)) {
       "//device/board/hihope/rk3568/camera/vdi_impl/v4l2/pipeline_core:camera_pipeline_core",
       "//foundation/window/window_manager/dmserver/test/unittest:dmserver_unittest_common",
       "//foundation/window/window_manager/extension/window_extension/test/unittest:window_extension_unittest_common",
+      "//vendor/hisi/ap/hardware/camera_product/mm_platform/software_encode:libsoftware_encode",
+      "//vendor/hisi/ap/hardware/camera_hal/hw_platform:libhw_platform",
+      "//device/hmos_emulator/hardware/camera/pipeline_core:camera_pipeline_core",
     ]
     sources = get_target_outputs(":libjpeg_action")
     public_configs = [ ":turbojpeg_config" ]
