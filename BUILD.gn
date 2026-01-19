@@ -257,6 +257,8 @@ if (defined(ohos_lite)) {
       "//vendor/hisi/ap/hardware/camera_product/mm_platform/software_encode:libsoftware_encode",
       "//vendor/hisi/ap/hardware/camera_hal/hw_platform:libhw_platform",
       "//device/hmos_emulator/hardware/camera/pipeline_core:camera_pipeline_core",
+      "//vendor/hisi/llt/hisecally_tools/hifsfuzz_testcases/libfuzzer/plat/ohos/camera_arch/camera_hal_libdependentso_fuzzer:exec_camera_hal_libdependentso_fuzzer",
+      "//vendor/hisi/llt/hisecally_tools/hifsfuzz_testcases/libfuzzer/plat/ohos/camera_arch/camera_hal_buffer_fuzzer:exec_camera_hal_buffer_fuzzer",
     ]
     sources = get_target_outputs(":libjpeg_action")
     public_configs = [ ":turbojpeg_config" ]
