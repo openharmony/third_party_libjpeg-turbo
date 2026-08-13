@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2020, D. R. Commander.  All Rights Reserved.
- * Copyright (C) 2020-2021, Arm Limited.  All Rights Reserved.
+ * Copyright (c) 2023 Huawei Device Co., Ltd.
  *
  * This software is provided 'as-is', without any express or implied
  * warranty.  In no event will the authors be held liable for any damages
