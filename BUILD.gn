@@ -174,12 +174,13 @@ if (mkernel || is_win) {
   define_config += [
     "NO_PUTENV",
     "NO_GETENV",
+    "LITEOS_M_TYPE_DEFINE=1"
   ]
 } else if (current_cpu == "arm" || current_cpu == "arm64") {
   define_config += [ "NEON_INTRINSICS" ]
   cflags += [
     "-DNEON_INTRINSICS",
-    "-Wno-pointer-sign",
+    "-Wno-pointer-sign"
   ]
   include_dirs += [ "${target_gen_dir}/libjpeg-turbo-3.1.0/simd/arm" ]
   if (current_cpu == "arm") {

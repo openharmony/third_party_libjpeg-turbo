@@ -36,18 +36,22 @@ def move_file(src_path, dst_path):
         "libjpeg-turbo-2.1.x-bugfix.patch",
         "liteos_adapting.patch",
         "libjpeg-turbo-optimize.patch",
-        "src/jconfig.h",
-        "src/jconfigint.h",
-        "jversion.h.in"
     ]
-    neon_compat_src_path = os.path.join(src_path, "src/neon-compat.h")
+    neon_compat_src_path = os.path.join(src_path, "neon-compat.h")
     neon_compat_dst_path = os.path.join(dst_path, "simd/arm/neon-compat.h")
     shutil.copy(neon_compat_src_path, neon_compat_dst_path)
     for file in files:
         src_file = os.path.join(src_path, file)
         dst_file = os.path.join(dst_path, file)
         shutil.copy(src_file, dst_file)
-
+    files1 = [
+        "jconfig.h",
+        "jconfigint.h",
+    ]
+    for file in files1:
+        src_file = os.path.join(src_path, file)
+        dst_file = os.path.join(dst_path, "src/", file)
+        shutil.copy(src_file, dst_file)
 
 def apply_patch(patch_file, target_dir):
     try:
@@ -72,6 +76,19 @@ def do_patch(target_dir):
         apply_patch(patch, target_dir)
 
 
+def move_include(src_path, dst_path):
+    files = [
+        "src/jmorecfg.h",
+        "src/jerror.h",
+        "src/jpeglib.h"
+    ]
+    for file in files:
+        src_file = os.path.join(src_path, file)
+        file_name = file[4:]
+        dst_file = os.path.join(dst_path, file_name)
+        shutil.copy(src_file, dst_file)
+
+
 def main():
     freetype_path = argparse.ArgumentParser()
     freetype_path.add_argument('--gen-dir', help='generate path of log', required=True)
@@ -83,6 +100,7 @@ def main():
     untar_file(tar_file_path, args.gen_dir)
     move_file(args.source_dir, target_dir)
     do_patch(target_dir)
+    move_include(target_dir, args.source_dir)
     return 0
 
 if __name__ == '__main__':
